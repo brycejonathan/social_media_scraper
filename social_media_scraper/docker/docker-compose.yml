@@ -1,0 +1,21 @@
+# docker/docker-compose.yml
+
+version: '3.8'
+
+services:
+  scraper_cli:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
+      - SNS_TOPIC_ARN=${SNS_TOPIC_ARN}
+      - S3_BUCKET_NAME=${S3_BUCKET_NAME}
+      - TWITTER_BEARER_TOKEN=${TWITTER_BEARER_TOKEN}
+    ports:
+      - "5000:5000"  # For API
+    volumes:
+      - .:/app
+    command: ["python", "-m", "api.api"]  # To run API; change as needed for CLI
